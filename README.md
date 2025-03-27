@@ -8,7 +8,88 @@ El Problema de Parada (Halting Problem) fue formulado por **Alan Turing en 1936*
 Turing demostró que este problema es **indecidible**, es decir, que **no existe ningún algoritmo general** que pueda resolverlo en todos los casos posibles.  
 Esta práctica tiene como objetivo simular este concepto en Java, comprendiendo tanto su funcionamiento como sus implicaciones teóricas.
 
+
 ---
+
+## 2. Estructura del proyecto
+
+## `Main`
+**Rol:**  
+- Es el **punto de entrada** de la aplicación.  
+- Suele contener el método `public static void main(String[] args)`.
+- Aquí se inicializa la interfaz gráfica (`MainUI`) y se pueden realizar pruebas de consola (ejecutar los programas, llamar a `Reverser`, etc.).
+
+---
+
+## Paquete `programs`
+Este paquete contiene **los programas de ejemplo** que ilustran el Problema de Parada.
+
+- **`Program.java`**  
+  - Es la **interfaz base** para todos los programas que se van a simular.  
+  - Define métodos como `run()` (para ejecutar el programa) y `getName()` (para identificarlo).
+
+- **`CountDown.java`**  
+  - Implementa la interfaz `Program`.  
+  - **Se detiene** al contar hacia abajo desde un número hasta 0.  
+  - Sirve como ejemplo de un programa que termina con seguridad.
+
+- **`CountUp.java`**  
+  - Implementa la interfaz `Program`.  
+  - **No se detiene** nunca: cuenta hacia arriba indefinidamente.  
+  - Es el ejemplo de un programa que entra en un bucle infinito.
+
+---
+
+## Paquete `checker`
+Aquí vive el **HaltChecker**, que simula el verificador hipotético.
+
+- **`HaltChecker.java`**  
+  - **Función principal:** Determina (de forma simulada) si un programa se detiene o no con cierta entrada.  
+  - **Importante:** En la práctica, no existe un verificador universal. Pero aquí, `HaltChecker` está diseñado para "conocer" solo casos concretos (`CountDown`, `CountUp`...), devolviendo respuestas predefinidas (por ejemplo, "sí se detiene" para `CountDown`, "no se detiene" para `CountUp`).
+
+---
+
+## Paquete `logic`
+Aquí se incluye la lógica que genera la **paradoja** de Turing.
+
+- **`Reverser.java`**  
+  - Representa el programa que se comporta de forma **contradictoria** con respecto a `HaltChecker`.  
+  - **Funcionamiento:**  
+    - Si `HaltChecker` dice "este programa se detiene", `Reverser` entra en un bucle infinito.  
+    - Si `HaltChecker` dice "este programa no se detiene", `Reverser` se detiene inmediatamente.  
+  - El caso extremo es cuando `Reverser` se evalúa a sí mismo, generando la **contradicción** que demuestra la indecidibilidad del problema de parar.
+
+---
+
+## Paquete `ui`
+Contiene la **interfaz gráfica** en Swing.
+
+- **`MainUI.java`**  
+  - Proporciona una ventana básica con botones para **ejecutar** cada programa:  
+    - Un botón para `CountDown` (se detiene).  
+    - Un botón para `CountUp` (no se detiene, ¡cuidado!).  
+    - Un botón para `Reverser` (muestra la paradoja).  
+  - Útil para demostrar la práctica de forma interactiva en lugar de hacerlo solo por consola.
+
+---
+
+## ¿Cómo se relacionan los componentes?
+
+- **Main** invoca la interfaz gráfica `MainUI` o realiza pruebas en consola.  
+- **MainUI** ofrece botones que, al pulsarlos, crean instancias de los programas (`CountDown`, `CountUp`) y llaman a su método `run()`.  
+- **HaltChecker** se usa internamente por `Reverser` para decidir si "se detiene" o "no se detiene".  
+- **Reverser** aplica la lógica opuesta a la predicción de `HaltChecker`.  
+- Al combinar `Reverser` con `HaltChecker` y sus propios métodos, se ilustra la **paradoja** descrita por Turing.
+
+---
+
+## Resumen de la estructura del proyecto
+
+- **`programs`**: Programas simples que se detienen o no.  
+- **`checker`**: Verificador hipotético que “decide” (solo para ejemplos conocidos).  
+- **`logic`**: Contiene `Reverser`, que genera la contradicción.  
+- **`ui`**: Interfaz Swing para demostrar la ejecución.  
+- **`Main`**: Punto de entrada.
 
 ## 2. Programas de ejemplo
 
